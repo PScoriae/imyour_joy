@@ -11,8 +11,8 @@ const getRestrictedRange = (noOfPages) => {
   return noOfPages;
 };
 
-const getRndInt = (min, max) => {
-  return Math.floor(Math.random() * (max - min) + 1) + min;
+const getRndInt = (max) => {
+  return Math.floor(Math.random() * max + 1);
 };
 
 const getRandomPage = async (name) => {
@@ -40,6 +40,7 @@ const getRandomPage = async (name) => {
 
 const getImageLink = async (searchString, randomPage) => {
   searchString = `${searchString}&p=${randomPage}`;
+  const exts = [".jpg", ".jpeg", ".png"];
   try {
     const { data } = await axios({
       method: "GET",
@@ -48,14 +49,17 @@ const getImageLink = async (searchString, randomPage) => {
 
     const $ = cheerio.load(data);
     const links = [];
-    $("#thumbs2 > li > p").each((i, pic) => {
-      const tmp = $(pic).children("a").attr("href")
-      if (tmp.includes('full')) {
-        links.push(tmp);
+    $("#thumbs2 > li > p > a").each((i, pic) => {
+      const tmp = $(pic).attr("href");
+      for (const ext of exts) {
+        if (tmp.endsWith(ext)) {
+          links.push(tmp);
+          break;
+        }
       }
     });
-    const randomIdx = getRndInt(0, links.length - 1);
-    return links[randomIdx];
+    const randomIdx = getRndInt(links.length);
+    return links[randomIdx - 1];
   } catch (err) {
     console.log(err);
   }
@@ -73,9 +77,13 @@ module.exports = {
     ),
   async execute(interaction) {
     await interaction.deferReply();
-    const name = interaction.options.getString("name");
-    const values = await getRandomPage(name);
-    const link = await getImageLink(values[0], values[1]);
-    await interaction.editReply(link);
+    try {
+      const name = interaction.options.getString("name");
+      const values = await getRandomPage(name);
+      const link = await getImageLink(values[0], values[1]);
+      await interaction.editReply(link);
+    } catch (err) {
+      await interaction.editReply("없어요 ㅠㅠ");
+    }
   },
 };

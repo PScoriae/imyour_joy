@@ -3,10 +3,10 @@ const { SlashCommandBuilder } = require("@discordjs/builders");
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("ping")
-    .setDescription("Replies with Pong!"),
+    .setDescription("안녕ㅇㅇㅇ"),
   async execute(interaction) {
     await interaction.reply(
-      `Pong in ${interaction.channel.toString()} to ${interaction.user.toString()}`
+      `https://tenor.com/view/seulisasoo-joy-gif-21877236`
     );
   },
 };
