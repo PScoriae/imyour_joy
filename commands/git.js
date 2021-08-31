@@ -3,10 +3,10 @@ const { SlashCommandBuilder } = require("@discordjs/builders");
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("git")
-    .setDescription(""),
+    .setDescription("Links to the GitHub repo."),
   async execute(interaction) {
     await interaction.reply(
-      `https://tenor.com/view/seulisasoo-joy-gif-21877236`
+      'https://github.com/PScoriae/imyour_joy/'
     );
   },
 };
