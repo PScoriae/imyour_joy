@@ -52,13 +52,26 @@ These instructions and the included script are meant for *nix based systems. How
 
 ### Deploying Slash Commands
 
-Like how the Official Discord.js Guide explains, `deploy-commands-global.js` updates your bot's commands across all the guilds it's in. However, it may take up to 1 hour for it to fan out all its commands. `deploy-commands.js`, on the other hand, instantly updates your bot's commands only to the guild specified in `config.json`. To run these scripts, ensure all dependencies are installed beforehand by running:
+Like how the official [Discord.js Guide](https://discordjs.guide/interactions/registering-slash-commands.html#guild-commands) explains,
 
-    $ npm install
+- `deploy-commands-global.js` updates your bot's commands across all the guilds it's in. However, it may take up to 1 hour for it to fan out all its commands.
+
+- `deploy-commands.js` instantly updates your bot's commands only to the guild specified in `config.json`.
+
+Here's how to run them:
+
+1. Ensure all dependencies are installed beforehand.
+
+        $ npm install
+
+2. Run the appropriate deploy-command script from the **root** directory of the project.
+
+        $ node deploy_commands/deploy-commands-global.js
+
+#### Duplicate Commands
 
 One very important thing to note is that running both of these deploy scripts will make your bot have duplicate commands in the guild specified in `config.json`.
 To remove the duplicates:
-
 
 1. Temporarily delete the commands in the `commands` folder and then run the `deploy-commands.js` script.
 
