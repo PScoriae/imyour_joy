@@ -20,9 +20,15 @@ The suggested method of deployment is through the use of Docker containers. Furt
 
 **Note:** In actual use, name arguments should **not** be enclosed in curly brackets. They are only presented here to demonstrate the syntax.
 
-# Configuration
+# Installation and Configuration
 
-## config.json
+## Installation
+
+In your desired location, simply run the following in the terminal:
+
+        $ git clone https://github.com/PScoriae/imyour_joy
+
+## Configuration
 
 If you have a look at the `.gitignore` file, you'll notice that `config.json` has been excluded. This is because it contains sensitive information that is unique to whoever wishes to deploy it.
 
@@ -42,7 +48,7 @@ However, if you wish to run the bot outside of Docker, see [Running the Bot Outs
 
 # Deployment
 
-These instructions and the included script are meant for *nix based systems. However, the deployment process can be replicated on Windows sytems provided you understand the intents behind these actions and adjust them accordingly.
+These instructions and the included script are meant for *nix based systems. However, the deployment process can be replicated on Windows systems provided you understand the intents behind these actions and adjust them accordingly.
 
 ## Running the Bot Outside of Docker
 
