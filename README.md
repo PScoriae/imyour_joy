@@ -44,7 +44,7 @@ To get your bot's client ID and your guild's ID, first enable Developer mode in 
 
 If you choose to deploy this bot using Docker, that's all the setup that's needed! `docker build` will take care of the rest.
 
-However, if you wish to run the bot outside of Docker, see [Running the Bot Outside of Docker](##running-the-bot-outside-of-docker)
+However, if you wish to run the bot outside of Docker, see [Running the Bot Outside of Docker](#running-the-bot-outside-of-docker)
 
 # Deployment
 
@@ -56,7 +56,7 @@ You'll first need to have Node.js installed and then install the required depend
 
     $ npm install
 
-Then, to start the bot, you can run the following from the root directory
+Then, to start the bot, you can run the following from the root directory:
 
     $ node .
 
