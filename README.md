@@ -73,11 +73,13 @@ Here's how to run them:
 One very important thing to note is that running both of these deploy scripts will make your bot have duplicate commands in the guild specified in `config.json`.
 To remove the duplicates:
 
-1. Temporarily delete the commands in the `commands` folder and then run the `deploy-commands.js` script.
+1. Temporarily delete the commands in the `commands` folder. 
 
-2. Verify that the duplicates are gone.
+2. Run your chosen deploy_commands script as described in [Deploying Slash Commands](#deploying-slash-commands).
 
-3. Undo the deletion to restore the commands.
+3. Verify that the duplicates are gone.
+
+4. Undo the deletion to restore the commands.
 
 **Note**: This fix need not be done when the bot is offline or on the server that the bot is being hosted on. All the scripts do is update the Discord servers regarding what commands your bot has.
 
