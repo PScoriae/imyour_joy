@@ -15,14 +15,23 @@ const getRndInt = (max) => {
   return Math.floor(Math.random() * max + 1);
 };
 
-const getRandomPage = async (name) => {
-  const searchString = `${site}/${name}?s=id`;
-  const values = [];
+const getWebpage = async (searchString) => {
   try {
     const { data } = await axios({
       method: "GET",
       url: searchString,
     });
+    return data;
+  } catch (err) {
+    console.log(err);
+  }
+};
+
+const getRandomPage = async (name) => {
+  const searchString = `${site}/${name}?s=id`;
+  const values = [];
+  try {
+    const data = await getWebpage(searchString);
 
     const $ = cheerio.load(data);
     const pagination = $(".pagination").text().trim();
@@ -30,6 +39,7 @@ const getRandomPage = async (name) => {
     const re = /\d+/;
     const noOfPages = Number(tmp.match(re)[0]);
     const randomPage = String(getRndInt(getRestrictedRange(noOfPages)));
+
     values.push(searchString);
     values.push(randomPage);
     return values;
@@ -42,10 +52,7 @@ const getImageLink = async (searchString, randomPage) => {
   searchString = `${searchString}&p=${randomPage}`;
   const exts = [".jpg", ".jpeg", ".png"];
   try {
-    const { data } = await axios({
-      method: "GET",
-      url: searchString,
-    });
+    const data = await getWebpage(searchString);
 
     const $ = cheerio.load(data);
     const links = [];
@@ -68,7 +75,9 @@ const getImageLink = async (searchString, randomPage) => {
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("pic")
-    .setDescription("Returns searched image from kpop.asiachan.com")
+    .setDescription(
+      "Returns a randomly chosen image of the person/thing from kpop.asiachan.com."
+    )
     .addStringOption((option) =>
       option
         .setName("name")
