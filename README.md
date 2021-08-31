@@ -26,7 +26,7 @@ The suggested method of deployment is through the use of Docker containers. Furt
 
 In your desired location, simply run the following in the terminal:
 
-        $ git clone https://github.com/PScoriae/imyour_joy
+    $ git clone https://github.com/PScoriae/imyour_joy
 
 ## Configuration
 
@@ -50,15 +50,33 @@ However, if you wish to run the bot outside of Docker, see [Running the Bot Outs
 
 These instructions and the included script are meant for *nix based systems. However, the deployment process can be replicated on Windows systems provided you understand the intents behind these actions and adjust them accordingly.
 
+## Deploying Slash Commands
+
+Like how the Official Discord.js Guide explains, `deploy-commands-global.js` updates your bot's commands across all the guilds it's in. However, it may take up to 1 hour for it to fan out all its commands. `deploy-commands.js`, on the other hand, instantly updates your bot's commands only to the guild specified in `config.json`. To run these scripts, ensure all dependencies are installed beforehand by running:
+
+        $ npm install
+
+One very important thing to note is that running both of these deploy scripts will make your bot have duplicate commands in the guild specified in `config.json`.
+To remove the duplicates:
+
+
+1. Temporarily delete the commands in the `commands` folder and then run the `deploy-commands.js` script.
+
+2. Verify that the duplicates are gone.
+
+3. Undo the deletion to restore the commands.
+
+**Note**: This fix need not be done when the bot is offline or on the server that the bot is being hosted on. All the scripts do is update the Discord servers regarding what commands your bot has.
+
 ## Running the Bot Outside of Docker
 
-You'll first need to have Node.js installed and then install the required dependencies with `npm`:
+1. You'll first need to have Node.js installed and then install the required dependencies with `npm`:
 
-    $ npm install
+        $ npm install
 
-Then, to start the bot, you can run the following from the root directory:
+2. Then, to start the bot, you can run the following from the root directory:
 
-    $ node .
+        $ node .
 
 That's all you need to do. The instructions below are for deploying it to a server hosting a private registry.
 
