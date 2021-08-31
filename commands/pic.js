@@ -29,7 +29,7 @@ const getRandomPage = async (name) => {
     const tmp = pagination.split(" ")[3];
     const re = /\d+/;
     const noOfPages = Number(tmp.match(re)[0]);
-    const randomPage = String(getRndInt(1, getRestrictedRange(noOfPages)));
+    const randomPage = String(getRndInt(getRestrictedRange(noOfPages)));
     values.push(searchString);
     values.push(randomPage);
     return values;
