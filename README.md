@@ -1,4 +1,4 @@
-# imyour_joy_py
+# imyour_joy
 
 A simple Kpop discord.js bot.
 
