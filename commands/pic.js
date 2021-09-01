@@ -15,13 +15,14 @@ const getRndInt = (max) => {
   return Math.floor(Math.random() * max + 1);
 };
 
-const getWebpage = async (searchString) => {
+const getHtml = async (searchString) => {
   try {
     const { data } = await axios({
       method: "GET",
       url: searchString,
     });
-    return data;
+    const $ = cheerio.load(data);
+    return $;
   } catch (err) {
     console.log(err);
   }
@@ -31,9 +32,8 @@ const getRandomPage = async (name) => {
   const searchString = `${site}/${name}?s=id`;
   const values = [];
   try {
-    const data = await getWebpage(searchString);
-
-    const $ = cheerio.load(data);
+    const $ = await getHtml(searchString);
+    
     const pagination = $(".pagination").text().trim();
     const tmp = pagination.split(" ")[3];
     const re = /\d+/;
@@ -50,26 +50,29 @@ const getRandomPage = async (name) => {
 
 const getImageLink = async (searchString, randomPage) => {
   searchString = `${searchString}&p=${randomPage}`;
-  const exts = [".jpg", ".jpeg", ".png"];
   try {
-    const data = await getWebpage(searchString);
-
-    const $ = cheerio.load(data);
-    const links = [];
-    $("#thumbs2 > li > p > a").each((i, pic) => {
-      const tmp = $(pic).attr("href");
-      for (const ext of exts) {
-        if (tmp.endsWith(ext)) {
-          links.push(tmp);
-          break;
-        }
-      }
-    });
+    const $ = await getHtml(searchString);
+    const links = await scrapeImageLinks($)
     const randomIdx = getRndInt(links.length);
     return links[randomIdx - 1];
   } catch (err) {
     console.log(err);
   }
+};
+
+const scrapeImageLinks = async ($) => {
+  const exts = [".jpg", ".jpeg", ".png"];
+  const links = [];
+  $("#thumbs2 > li > p > a").each((i, pic) => {
+    const tmp = $(pic).attr("href");
+    for (const ext of exts) {
+      if (tmp.endsWith(ext)) {
+        links.push(tmp);
+        break;
+      }
+    }
+  });
+  return links
 };
 
 module.exports = {
