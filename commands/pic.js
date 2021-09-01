@@ -33,7 +33,7 @@ const getRandomPage = async (name) => {
   const values = [];
   try {
     const $ = await getHtml(searchString);
-    
+
     const pagination = $(".pagination").text().trim();
     const tmp = pagination.split(" ")[3];
     const re = /\d+/;
@@ -52,7 +52,7 @@ const getImageLink = async (searchString, randomPage) => {
   searchString = `${searchString}&p=${randomPage}`;
   try {
     const $ = await getHtml(searchString);
-    const links = await scrapeImageLinks($)
+    const links = await scrapeImageLinks($);
     const randomIdx = getRndInt(links.length);
     return links[randomIdx - 1];
   } catch (err) {
@@ -72,7 +72,7 @@ const scrapeImageLinks = async ($) => {
       }
     }
   });
-  return links
+  return links;
 };
 
 module.exports = {
