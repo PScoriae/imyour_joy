@@ -15,14 +15,13 @@ const getRndInt = (max) => {
   return Math.floor(Math.random() * max + 1);
 };
 
-const getHtml = async (searchString) => {
+const loadHtml = async (searchString) => {
   try {
     const { data } = await axios({
       method: "GET",
       url: searchString,
     });
-    const $ = cheerio.load(data);
-    return $;
+    return cheerio.load(data);
   } catch (err) {
     console.log(err);
   }
@@ -32,7 +31,7 @@ const getRandomPage = async (name) => {
   const searchString = `${site}/${name}?s=id`;
   const values = [];
   try {
-    const $ = await getHtml(searchString);
+    const $ = await loadHtml(searchString);
 
     const pagination = $(".pagination").text().trim();
     const tmp = pagination.split(" ")[3];
@@ -51,7 +50,7 @@ const getRandomPage = async (name) => {
 const getImageLink = async (searchString, randomPage) => {
   searchString = `${searchString}&p=${randomPage}`;
   try {
-    const $ = await getHtml(searchString);
+    const $ = await loadHtml(searchString);
     const links = await scrapeImageLinks($);
     const randomIdx = getRndInt(links.length);
     return links[randomIdx - 1];
