@@ -5,5 +5,3 @@ Dockerfile
 .git
 .gitignore
 docker.sh
-README.md
-LICENSE
