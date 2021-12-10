@@ -64,21 +64,21 @@ const getAllDirFiles = function (dirPath, arrayOfFiles) {
   return arrayOfFiles;
 };
 
-let imageDirFiles = getAllDirFiles("./images/");
+// let imageDirFiles = getAllDirFiles("./images/");
 
-client.on("ready", async () => {
-  cron.schedule("*/1 * * * * *", async () => {
-    const randomNo = Math.floor(Math.random() * imageDirFiles.length);
-    const chosenImg = imageDirFiles[randomNo];
-    imageDirFiles.splice(randomNo, 1);
+// client.on("ready", async () => {
+//   cron.schedule("*/1 * * * * *", async () => {
+//     const randomNo = Math.floor(Math.random() * imageDirFiles.length);
+//     const chosenImg = imageDirFiles[randomNo];
+//     imageDirFiles.splice(randomNo, 1);
 
-    const myGuild = client.guilds.cache.get(guildId);
-    myGuild.setIcon("./images/" + chosenImg);
+//     const myGuild = client.guilds.cache.get(guildId);
+//     myGuild.setIcon("./images/" + chosenImg);
 
-    if (imageDirFiles.length < 1) {
-      imageDirFiles = getAllDirFiles("./images/");
-    }
-  });
-});
+//     if (imageDirFiles.length < 1) {
+//       imageDirFiles = getAllDirFiles("./images/");
+//     }
+//   });
+// });
 
 client.login(token);
