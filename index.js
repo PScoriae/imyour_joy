@@ -1,7 +1,8 @@
 // Require the necessary discord.js classes
 const { Client, Collection, Intents } = require("discord.js");
-const { token } = require("./config.json");
+const { token, guildId } = require("./config.json");
 const fs = require("fs");
+const cron = require("node-cron");
 
 // Create a new client instance
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
@@ -47,5 +48,37 @@ client.on("interactionCreate", async (interaction) => {
   }
 });
 
-// Login to Discord with your client's token
+const getAllDirFiles = function (dirPath, arrayOfFiles) {
+  const files = fs.readdirSync(dirPath);
+
+  arrayOfFiles = arrayOfFiles || [];
+
+  files.forEach(function (file) {
+    if (fs.statSync(dirPath + "/" + file).isDirectory()) {
+      arrayOfFiles = getAllDirFiles(dirPath + "/" + file, arrayOfFiles);
+    } else {
+      arrayOfFiles.push(file);
+    }
+  });
+
+  return arrayOfFiles;
+};
+
+let imageDirFiles = getAllDirFiles("./images/");
+
+client.on("ready", async () => {
+  cron.schedule("*/1 * * * * *", async () => {
+    const randomNo = Math.floor(Math.random() * imageDirFiles.length);
+    const chosenImg = imageDirFiles[randomNo];
+    imageDirFiles.splice(randomNo, 1);
+
+    const myGuild = client.guilds.cache.get(guildId);
+    myGuild.setIcon("./images/" + chosenImg);
+
+    if (imageDirFiles.length < 1) {
+      imageDirFiles = getAllDirFiles("./images/");
+    }
+  });
+});
+
 client.login(token);
