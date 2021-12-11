@@ -67,7 +67,7 @@ const getAllDirFiles = function (dirPath, arrayOfFiles) {
 let imageDirFiles = getAllDirFiles("./images/");
 
 client.on("ready", async () => {
-  cron.schedule("* 0 * * *", async () => {
+  cron.schedule("0 * * * *", async () => {
     const randomNo = Math.floor(Math.random() * imageDirFiles.length);
     const chosenImg = imageDirFiles[randomNo];
     imageDirFiles.splice(randomNo, 1);
