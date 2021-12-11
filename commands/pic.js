@@ -1,4 +1,5 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
+const { getRandInt } = require("../functions.js")
 const axios = require("axios");
 const cheerio = require("cheerio");
 
@@ -9,10 +10,6 @@ const getRestrictedRange = (noOfPages) => {
     return 100;
   }
   return noOfPages;
-};
-
-const getRndInt = (max) => {
-  return Math.floor(Math.random() * max);
 };
 
 const loadHtml = async (searchString) => {
@@ -37,7 +34,7 @@ const getRandomPage = async (name) => {
     const tmp = pagination.split(" ")[3];
     const re = /\d+/;
     const noOfPages = Number(tmp.match(re)[0]);
-    const randomPage = String(getRndInt(getRestrictedRange(noOfPages)) + 1);
+    const randomPage = String(getRandInt(getRestrictedRange(noOfPages)) + 1);
 
     values.push(searchString);
     values.push(randomPage);
@@ -52,7 +49,7 @@ const getImageLink = async (searchString, randomPage) => {
   try {
     const $ = await loadHtml(searchString);
     const links = await scrapeImageLinks($);
-    const randomIdx = getRndInt(links.length);
+    const randomIdx = getRandInt(links.length);
     return links[randomIdx - 1];
   } catch (err) {
     console.log(err);
