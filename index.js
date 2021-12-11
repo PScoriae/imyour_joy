@@ -128,8 +128,8 @@ client.on("ready", async () => {
     );
   });
 
-  // refresh access token every half hour
-  cron.schedule("30 * * * *", async () => {
+  // refresh access token every 10 minutes
+  cron.schedule("/*10 * * * *", async () => {
     // When our access token will expire
     let tokenExpirationEpoch;
 
