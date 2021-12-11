@@ -12,7 +12,7 @@ const getRestrictedRange = (noOfPages) => {
 };
 
 const getRndInt = (max) => {
-  return Math.floor(Math.random() * max + 1);
+  return Math.floor(Math.random() * max);
 };
 
 const loadHtml = async (searchString) => {
@@ -37,7 +37,7 @@ const getRandomPage = async (name) => {
     const tmp = pagination.split(" ")[3];
     const re = /\d+/;
     const noOfPages = Number(tmp.match(re)[0]);
-    const randomPage = String(getRndInt(getRestrictedRange(noOfPages)));
+    const randomPage = String(getRndInt(getRestrictedRange(noOfPages)) + 1);
 
     values.push(searchString);
     values.push(randomPage);
