@@ -1,6 +1,6 @@
 // Require the necessary discord.js classes
 const { Client, Collection, Intents } = require("discord.js");
-const { discordToken, guildId, targetChannel } = require("./config.json");
+const { discord } = require("./config.json");
 const {
   getAllDirFiles,
   sendRandSong,
@@ -52,8 +52,8 @@ client.on("interactionCreate", async (interaction) => {
 
 client.on("ready", async () => {
   let imageDirFiles = getAllDirFiles("./images/");
-  const myGuild = client.guilds.cache.get(guildId);
-  const musicChannel = client.channels.cache.get(targetChannel);
+  const myGuild = client.guilds.cache.get(discord.guildId);
+  const musicChannel = client.channels.cache.get(discord.targetChannel);
 
   cron.schedule("0 * * * *", async () => {
     changeGuildIcon(imageDirFiles, myGuild);
@@ -64,4 +64,4 @@ client.on("ready", async () => {
   });
 });
 
-client.login(discordToken);
+client.login(discord.token);
