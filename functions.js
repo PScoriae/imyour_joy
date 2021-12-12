@@ -83,4 +83,4 @@ function changeGuildIcon(imageDirFiles, myGuild) {
   }
 }
 
-module.exports = { getAllDirFiles, sendRandSong, changeGuildIcon };
+module.exports = { getRandInt, getAllDirFiles, sendRandSong, changeGuildIcon };
