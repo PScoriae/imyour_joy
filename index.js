@@ -59,7 +59,7 @@ client.on("ready", async () => {
     changeGuildIcon(imageDirFiles, myGuild);
   });
 
-  cron.schedule("0 15 * * *", async () => {
+  cron.schedule("0 17 * * *", async () => {
     await sendRandSong(musicChannel);
   });
 });
