@@ -1,6 +1,6 @@
 const { REST } = require("@discordjs/rest");
 const { Routes } = require("discord-api-types/v9");
-const { clientId, discord } = require("../config.json");
+const { discord } = require("../config.json");
 const fs = require("fs");
 
 const commands = [];
@@ -17,7 +17,7 @@ const rest = new REST({ version: "9" }).setToken(discord.token);
 
 (async () => {
   try {
-    await rest.put(Routes.applicationCommands(clientId), { body: commands });
+    await rest.put(Routes.applicationCommands(discord.clientId), { body: commands });
 
     console.log("Successfully registered application commands globally.");
   } catch (error) {
