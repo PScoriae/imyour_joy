@@ -1,4 +1,4 @@
-FROM node:16.8-alpine
+FROM node:17.2-alpine
 
 ADD . .
 
