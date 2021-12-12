@@ -1,6 +1,6 @@
 const { REST } = require("@discordjs/rest");
 const { Routes } = require("discord-api-types/v9");
-const { clientId, token } = require("../config.json");
+const { clientId, discordToken } = require("../config.json");
 const fs = require("fs");
 
 const commands = [];
@@ -13,7 +13,7 @@ for (const file of commandFiles) {
   commands.push(command.data.toJSON());
 }
 
-const rest = new REST({ version: "9" }).setToken(token);
+const rest = new REST({ version: "9" }).setToken(discordToken);
 
 (async () => {
   try {
