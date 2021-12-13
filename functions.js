@@ -80,6 +80,7 @@ function changeGuildIcon(imageDirFiles, myGuild) {
 
   if (imageDirFiles.length < 1) {
     imageDirFiles = getAllDirFiles("./images/");
+    changeGuildIcon(imageDirFiles, myGuild);
   }
 }
 
