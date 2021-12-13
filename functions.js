@@ -77,11 +77,6 @@ function changeGuildIcon(imageDirFiles, myGuild) {
   const chosenImg = imageDirFiles[randomNo];
   imageDirFiles.splice(randomNo, 1);
   myGuild.setIcon("./images/" + chosenImg);
-
-  if (imageDirFiles.length < 1) {
-    imageDirFiles = getAllDirFiles("./images/");
-    changeGuildIcon(imageDirFiles, myGuild);
-  }
 }
 
 module.exports = { getRandInt, getAllDirFiles, sendRandSong, changeGuildIcon };
