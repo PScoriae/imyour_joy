@@ -46,7 +46,7 @@ This is the list of things you'll need to setup and where to find them:
   3. Grab the API Key
 - Discord Information
   1. Enable developer mode in your Discord client's settings
-  2. Right-click on the bot, guild and desired channel then click on *Copy ID* to get the clientId, guildId and targetChannelId respectively.
+  2. Right-click on the bot, guild or desired channel then click on *Copy ID* to get the clientId, guildId or targetChannelId respectively.
 - Spotify API and Playlist
   1. Go to the [Spotify Developer Dashboard](https://developer.spotify.com/dashboard/) (Login if you have to)
   2. Click on Create an App
