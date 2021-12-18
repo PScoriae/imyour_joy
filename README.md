@@ -168,7 +168,7 @@ Special thanks to botjtib for providing a [solution](https://stackoverflow.com/q
 3. Edit `docker.sh`'s variables to fit your needs.
 
     - For your desired timezone, refer to the list of TZ database names [here](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)
-    - Thanks to Robin Thoni and BillyTom for the [custom TZ solution](https://serverfault.com/questions/683605/docker-container-time-timezone-will-not-reflect-changes)
+    - Thanks to Michael Hampton and BillyTom for the [custom TZ solution](https://serverfault.com/questions/683605/docker-container-time-timezone-will-not-reflect-changes)
 
 4. Run `docker.sh` to automatically **build**, **tag** and **push** the image to your private registry.
 
