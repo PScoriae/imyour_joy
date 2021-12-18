@@ -4,7 +4,8 @@
 imageName=imyourjoy
 serverIp=192.168.0.154
 serverPort=5000
+timezone=Asia/Kuala_Lumpur
 
-docker build -t $imageName .
+docker build --build-arg tz=$timezone -t $imageName .
 docker tag imyourjoy $serverIp:$serverPort/$imageName
 docker push $serverIp:$serverPort/$imageName

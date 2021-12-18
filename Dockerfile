@@ -6,6 +6,8 @@ RUN npm install
 
 RUN apk add --no-cache tzdata
 
-ENV TZ Asia/Kuala_Lumpur
+ARG tz=Asia/Kuala_Lumpur
+
+ENV TZ $tz
 
 CMD ["node", "."]
