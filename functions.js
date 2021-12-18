@@ -35,7 +35,6 @@ const youTube = new YouTube();
 youTube.setKey(ytApiKey);
 
 const ytPrefix = "https://youtu.be/";
-const kpopPlaylistId = spotify.playlistId;
 
 function refreshSpotifyAccessToken() {
   spotifyApi.refreshAccessToken().then(function (data) {
@@ -44,16 +43,21 @@ function refreshSpotifyAccessToken() {
   });
 }
 
+// returns a random element from a given array
+function getRandElem(array) {
+  const randomNo = getRandInt(array.length);
+  return array[randomNo];
+}
+
 async function sendRandSong(textChannel) {
   refreshSpotifyAccessToken();
+  // wait for Spotify servers to update
   await new Promise((r) => setTimeout(r, 2000));
-  spotifyApi.getPlaylistTracks(kpopPlaylistId).then(
+  const randomPlaylist = getRandElem(spotify.playlistIds);
+  spotifyApi.getPlaylistTracks(randomPlaylist).then(
     function (data) {
-      const randomNo = getRandInt(data.body.items.length);
-      const searchTerm =
-        data.body.items[randomNo].track.name +
-        " " +
-        data.body.items[randomNo].track.artists[0].name;
+      const randomTrack = getRandElem(data.body.items);
+      const searchTerm = `${randomTrack.track.name} ${randomTrack.track.artists[0].name}`;
       youTube.search(searchTerm, 1, function (error, result) {
         if (error) {
           console.log(error);
@@ -65,9 +69,6 @@ async function sendRandSong(textChannel) {
     },
     async function (err) {
       console.log(err);
-      // refreshSpotifyAccessToken();
-      // await new Promise((r) => setTimeout(r, 2000));
-      // sendRandSong(textChannel);
     }
   );
 }
