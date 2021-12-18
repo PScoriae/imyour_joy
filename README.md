@@ -53,7 +53,7 @@ This is the list of things you'll need to setup and where to find them:
   3. Click on *Edit Settings* and add http://localhost:8888/callback as a Redirect URI then save.
   4. Grab your Spotify Client ID and Secret.
   5. Follow [this](https://github.com/thelinmichael/spotify-web-api-node/blob/master/examples/tutorial/00-get-access-token.js) guide to get your API's refresh token.
-  6. Get the desired playlist's ID by looking at its link. For example, https://open.spotify.com/playlist/3etdiVqR3BTqVdOqGlUjvf?si=79b7f3aab1364538 has a playlist ID of 3etdiVqR3BTqVdOqGlUjvf
+  6. Get the desired playlist's ID by looking at its link. For example, https://open.spotify.com/playlist/3etdiVqR3BTqVdOqGlUjvf?si=79b7f3aab1364538 has a playlist ID of 3etdiVqR3BTqVdOqGlUjvf. Add these playlist IDs into a list.
 
 Here's how your `config.json` object should look like:
 ```
@@ -69,7 +69,7 @@ Here's how your `config.json` object should look like:
         "clientId": "randomBunchOfAlphanumerics",
         "clientSecret": "randomBunchOfAlphanumerics",
         "refreshToken": "reeeeeeeaaaallllyyLoooooonnggggBunchOfAlphanumerics",
-        "playlistId": "yourSpotifyPlaylistId"
+        "playlistIds": ["3etdiVqR3BTqVdOqGlUjvf", "1A4YFkRdyliuTubKvSUdvw", "5WWFy14H1EZZsDRbpWuVUg", "6LnpfY8qOiPdnFqizTp2Aa"]
     }
 }
 ```
