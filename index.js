@@ -1,5 +1,5 @@
 // Require the necessary discord.js classes
-const { Client, Collection, Intents } = require("discord.js");
+const { Client, Collection, Intents, HTTPError } = require("discord.js");
 const { discord } = require("./config.json");
 const {
   getAllDirFiles,
@@ -28,11 +28,8 @@ const eventFiles = fs
 
 for (const file of eventFiles) {
   const event = require(`./events/${file}`);
-  if (event.once) {
-    client.once(event.name, (...args) => event.execute(...args));
-  } else {
-    client.on(event.name, (...args) => event.execute(...args));
-  }
+  if (event.once) client.once(event.name, (...args) => event.execute(...args));
+  else client.on(event.name, (...args) => event.execute(...args));
 }
 
 client.on("interactionCreate", async (interaction) => {
@@ -53,17 +50,33 @@ client.on("interactionCreate", async (interaction) => {
 client.on("ready", async () => {
   let imageDirFiles = getAllDirFiles("./images/");
   const myGuild = client.guilds.cache.get(discord.guildId);
-  const musicChannel = client.channels.cache.get(discord.targetChannel);
+  const musicChannel = client.channels.cache.get(discord.musicChannel);
+  const errorChannel = client.channels.cache.get(discord.errorChannel);
 
   cron.schedule("0 * * * *", async () => {
-    if (imageDirFiles.length < 1) {
-      imageDirFiles = getAllDirFiles("./images/");
+    if (imageDirFiles.length < 1) imageDirFiles = getAllDirFiles("./images/");
+    try {
+      changeGuildIcon(imageDirFiles, myGuild);
+    } catch (e) {
+      if (e instanceof HTTPError) {
+        console.error("HTTPError connecting to Discord's servers.");
+        errorChannel.send(
+          "HTTPError occured trying to change the server's icon."
+        );
+      } else {
+        console.log("Something went wrong trying to change the image!");
+        errorChannel.send("Something went wrong trying to change the image!");
+      }
     }
-    changeGuildIcon(imageDirFiles, myGuild);
   });
 
   cron.schedule("0 17 * * *", async () => {
-    await sendRandSong(musicChannel);
+    try {
+      await sendRandSong(musicChannel);
+    } catch (error) {
+      console.log(error);
+      errorChannel.send("Something went wrong trying to send a song.");
+    }
   });
 });
 

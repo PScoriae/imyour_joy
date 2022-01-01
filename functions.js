@@ -3,6 +3,23 @@ const SpotifyWebApi = require("spotify-web-api-node");
 const YouTube = require("youtube-node");
 const fs = require("fs");
 
+function getCurrentTime() {
+  const currentdate = new Date();
+  return (
+    currentdate.getDate() +
+    "/" +
+    (currentdate.getMonth() + 1) +
+    "/" +
+    currentdate.getFullYear() +
+    " @ " +
+    currentdate.getHours() +
+    ":" +
+    currentdate.getMinutes() +
+    ":" +
+    currentdate.getSeconds()
+  );
+}
+
 function getRandInt(length) {
   return Math.floor(Math.random() * length);
 }
@@ -13,11 +30,9 @@ function getAllDirFiles(dirPath, arrayOfFiles) {
   arrayOfFiles = arrayOfFiles || [];
 
   files.forEach(function (file) {
-    if (fs.statSync(dirPath + "/" + file).isDirectory()) {
+    if (fs.statSync(dirPath + "/" + file).isDirectory())
       arrayOfFiles = getAllDirFiles(dirPath + "/" + file, arrayOfFiles);
-    } else {
-      arrayOfFiles.push(file);
-    }
+    else arrayOfFiles.push(file);
   });
 
   return arrayOfFiles;
@@ -39,7 +54,7 @@ const ytPrefix = "https://youtu.be/";
 function refreshSpotifyAccessToken() {
   spotifyApi.refreshAccessToken().then(function (data) {
     spotifyApi.setAccessToken(data.body.access_token);
-    console.log("refreshed spotify access token!");
+    console.log(`Refreshed Spotify Access Token`);
   });
 }
 
@@ -50,8 +65,9 @@ function getRandElem(array) {
 }
 
 async function sendRandSong(textChannel) {
+  console.log(getCurrentTime());
   refreshSpotifyAccessToken();
-  // wait for Spotify servers to update
+  // wait for Spotify servers to recognize new token
   await new Promise((r) => setTimeout(r, 2000));
   const randomPlaylist = getRandElem(spotify.playlistIds);
   spotifyApi.getPlaylistTracks(randomPlaylist).then(
@@ -59,11 +75,11 @@ async function sendRandSong(textChannel) {
       const randomTrack = getRandElem(data.body.items);
       const searchTerm = `${randomTrack.track.name} ${randomTrack.track.artists[0].name}`;
       youTube.search(searchTerm, 1, function (error, result) {
-        if (error) {
-          console.log(error);
-        } else {
+        if (error) console.log(error);
+        else {
           const ytLink = ytPrefix + result.items[0].id.videoId;
           textChannel.send(ytLink);
+          console.log(`Sent ${searchTerm} to `);
         }
       });
     },
@@ -78,6 +94,11 @@ function changeGuildIcon(imageDirFiles, myGuild) {
   const chosenImg = imageDirFiles[randomNo];
   imageDirFiles.splice(randomNo, 1);
   myGuild.setIcon("./images/" + chosenImg);
+  console.log(
+    `${getCurrentTime()}\nSuccessfully set ${
+      myGuild.name
+    }'s image to ${chosenImg}`
+  );
 }
 
 module.exports = { getRandInt, getAllDirFiles, sendRandSong, changeGuildIcon };
