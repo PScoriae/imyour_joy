@@ -53,7 +53,7 @@ client.on("ready", async () => {
   const musicChannel = client.channels.cache.get(discord.musicChannel);
   const errorChannel = client.channels.cache.get(discord.errorChannel);
 
-  cron.schedule("0 * * * *", async () => {
+  cron.schedule("0 0 * * *", async () => {
     if (imageDirFiles.length < 1) imageDirFiles = getAllDirFiles("./images/");
     try {
       changeGuildIcon(imageDirFiles, myGuild);
