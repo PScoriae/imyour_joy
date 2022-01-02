@@ -79,7 +79,7 @@ async function sendRandSong(textChannel) {
         else {
           const ytLink = ytPrefix + result.items[0].id.videoId;
           textChannel.send(ytLink);
-          console.log(`Sent ${searchTerm} to `);
+          console.log(`Sent ${searchTerm} to ${textChannel.name}`);
         }
       });
     },
