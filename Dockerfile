@@ -1,4 +1,4 @@
-FROM node:17.2-alpine
+FROM docker.io/library/node:17.2-alpine
 
 ADD . .
 
