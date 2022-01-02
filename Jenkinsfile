@@ -1,5 +1,10 @@
 pipeline {
 
+    environment {
+        imageName = "imyourjoy"
+        tz = "Asia/Kuala_Lumpur"
+    }
+
     agent any
     
     stages {
@@ -8,7 +13,7 @@ pipeline {
             
             steps {
                 configFileProvider([configFile(fileId: 'fa4175e8-7ba6-470e-8139-7d6a8c020f48', targetLocation: 'config.json')]) {
-                    sh 'sudo docker build --build-arg tz=Asia/Kuala_Lumpur -t imyourjoy .'
+                    sh 'sudo docker build --build-arg tz=${tz} -t ${imageName} .'
                 }
             }
         }
@@ -16,15 +21,15 @@ pipeline {
         stage("stop container") {
             
             steps {
-                sh 'sudo docker stop imyourjoy'
-                sh 'sudo docker rm imyourjoy'
+                sh 'sudo docker stop ${imageName}'
+                sh 'sudo docker rm ${imageName}'
             }
         }
 
         stage("deploy") {
             
             steps {
-                sh 'sudo podman run -d --restart unless-stopped --name imyourjoy imyourjoy'
+                sh 'sudo podman run -d --restart unless-stopped --name ${imageName} ${imageName}'
             }
         }
 
