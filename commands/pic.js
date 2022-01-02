@@ -1,5 +1,5 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { getRandInt } = require("../functions.js")
+const { getRandInt, getCurrentTime } = require("../functions.js");
 const axios = require("axios");
 const cheerio = require("cheerio");
 
@@ -90,8 +90,10 @@ module.exports = {
       const values = await getRandomPage(name);
       const link = await getImageLink(values[0], values[1]);
       await interaction.editReply(link);
+      console.log(`${getCurrentTime()}\nExecuted /pic command.`);
     } catch (err) {
       await interaction.editReply("없어요 ㅠㅠ");
+      console.log(`${getCurrentTime}\nUnable to find picture for ${name}`);
     }
   },
 };

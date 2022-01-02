@@ -1,12 +1,12 @@
 const { SlashCommandBuilder } = require("@discordjs/builders");
+const { getCurrentTime } = require("../functions");
 
 module.exports = {
   data: new SlashCommandBuilder()
     .setName("git")
     .setDescription("Links to the GitHub repo."),
   async execute(interaction) {
-    await interaction.reply(
-      'https://github.com/PScoriae/imyour_joy'
-    );
+    await interaction.reply("https://github.com/PScoriae/imyour_joy");
+    console.log(`${getCurrentTime()}\nExecuted /git command.`);
   },
 };
