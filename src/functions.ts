@@ -20,16 +20,16 @@ function getCurrentTime() {
   );
 }
 
-function getRandInt(length) {
+function getRandInt(length: number) {
   return Math.floor(Math.random() * length);
 }
 
-function getAllDirFiles(dirPath, arrayOfFiles) {
+function getAllDirFiles(dirPath: string, arrayOfFiles: string[]) {
   const files = fs.readdirSync(dirPath);
 
   arrayOfFiles = arrayOfFiles || [];
 
-  files.forEach(function (file) {
+  files.forEach((file) => {
     if (fs.statSync(dirPath + "/" + file).isDirectory())
       arrayOfFiles = getAllDirFiles(dirPath + "/" + file, arrayOfFiles);
     else arrayOfFiles.push(file);
@@ -108,3 +108,5 @@ module.exports = {
   sendRandSong,
   changeGuildIcon,
 };
+
+export{};

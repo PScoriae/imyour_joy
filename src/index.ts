@@ -1,6 +1,6 @@
 // Require the necessary discord.js classes
 const { Client, Collection, Intents, HTTPError } = require("discord.js");
-const { discord } = require("./config.json");
+const { discord } = require("../config.json");
 const {
   getAllDirFiles,
   sendRandSong,
@@ -15,7 +15,7 @@ const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 client.commands = new Collection();
 const commandFiles = fs
   .readdirSync("./commands")
-  .filter((file) => file.endsWith(".js"));
+  .filter((file: string) => file.endsWith(".js"));
 
 for (const file of commandFiles) {
   const command = require(`./commands/${file}`);
@@ -24,15 +24,15 @@ for (const file of commandFiles) {
 
 const eventFiles = fs
   .readdirSync("./events")
-  .filter((file) => file.endsWith(".js"));
+  .filter((file: string) => file.endsWith(".js"));
 
 for (const file of eventFiles) {
   const event = require(`./events/${file}`);
-  if (event.once) client.once(event.name, (...args) => event.execute(...args));
-  else client.on(event.name, (...args) => event.execute(...args));
+  if (event.once) client.once(event.name, (...args: any[]) => event.execute(...args));
+  else client.on(event.name, (...args: any[]) => event.execute(...args));
 }
 
-client.on("interactionCreate", async (interaction) => {
+client.on("interactionCreate", async (interaction: any) => {
   if (!interaction.isCommand()) return;
   const command = client.commands.get(interaction.commandName);
   if (!command) return;
@@ -81,3 +81,5 @@ client.on("ready", async () => {
 });
 
 client.login(discord.token);
+
+export{};
