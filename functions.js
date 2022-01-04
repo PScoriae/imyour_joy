@@ -52,7 +52,7 @@ youTube.setKey(ytApiKey);
 const ytPrefix = "https://youtu.be/";
 
 function refreshSpotifyAccessToken() {
-  spotifyApi.refreshAccessToken().then(function (data) {
+  spotifyApi.refreshAccessToken().then((data) => {
     spotifyApi.setAccessToken(data.body.access_token);
     console.log(`Refreshed Spotify Access Token`);
   });
@@ -71,10 +71,10 @@ async function sendRandSong(textChannel) {
   await new Promise((r) => setTimeout(r, 2000));
   const randomPlaylist = getRandElem(spotify.playlistIds);
   spotifyApi.getPlaylistTracks(randomPlaylist).then(
-    function (data) {
+    (data) => {
       const randomTrack = getRandElem(data.body.items);
       const searchTerm = `${randomTrack.track.name} ${randomTrack.track.artists[0].name}`;
-      youTube.search(searchTerm, 1, function (error, result) {
+      youTube.search(searchTerm, 1, (error, result) => {
         if (error) console.log(error);
         else {
           const ytLink = ytPrefix + result.items[0].id.videoId;
