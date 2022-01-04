@@ -1,3 +1,5 @@
+import { Guild, TextChannel } from "discord.js";
+
 const { ytApiKey, spotify } = require("./config.json");
 const SpotifyWebApi = require("spotify-web-api-node");
 const YouTube = require("youtube-node");
@@ -24,15 +26,15 @@ function getRandInt(length: number) {
   return Math.floor(Math.random() * length);
 }
 
-function getAllDirFiles(dirPath: string, arrayOfFiles: string[]) {
+function getAllDirFiles(dirPath: string, arrayOfFiles?: string[]) {
   const files = fs.readdirSync(dirPath);
 
   arrayOfFiles = arrayOfFiles || [];
 
-  files.forEach((file) => {
+  files.forEach((file: string) => {
     if (fs.statSync(dirPath + "/" + file).isDirectory())
       arrayOfFiles = getAllDirFiles(dirPath + "/" + file, arrayOfFiles);
-    else arrayOfFiles.push(file);
+    else arrayOfFiles?.push(file);
   });
 
   return arrayOfFiles;
@@ -52,29 +54,29 @@ youTube.setKey(ytApiKey);
 const ytPrefix = "https://youtu.be/";
 
 function refreshSpotifyAccessToken() {
-  spotifyApi.refreshAccessToken().then((data) => {
+  spotifyApi.refreshAccessToken().then((data: { body: { access_token: string; }; }) => {
     spotifyApi.setAccessToken(data.body.access_token);
     console.log(`Refreshed Spotify Access Token`);
   });
 }
 
 // returns a random element from a given array
-function getRandElem(array) {
+function getRandElem(array: any[]) {
   const randomNo = getRandInt(array.length);
   return array[randomNo];
 }
 
-async function sendRandSong(textChannel) {
+async function sendRandSong(textChannel: TextChannel) {
   console.log(getCurrentTime());
   refreshSpotifyAccessToken();
   // wait for Spotify servers to recognize new token
   await new Promise((r) => setTimeout(r, 2000));
   const randomPlaylist = getRandElem(spotify.playlistIds);
   spotifyApi.getPlaylistTracks(randomPlaylist).then(
-    (data) => {
+    (data: { body: { items: string[]; }; }) => {
       const randomTrack = getRandElem(data.body.items);
       const searchTerm = `${randomTrack.track.name} ${randomTrack.track.artists[0].name}`;
-      youTube.search(searchTerm, 1, (error, result) => {
+      youTube.search(searchTerm, 1, (error: any, result: { items: { id: { videoId: string; }; }[]; }) => {
         if (error) console.log(error);
         else {
           const ytLink = ytPrefix + result.items[0].id.videoId;
@@ -83,13 +85,13 @@ async function sendRandSong(textChannel) {
         }
       });
     },
-    async function (err) {
+    async function (err: any) {
       console.log(err);
     }
   );
 }
 
-function changeGuildIcon(imageDirFiles, myGuild) {
+function changeGuildIcon(imageDirFiles: string[], myGuild: Guild) {
   const randomNo = getRandInt(imageDirFiles.length);
   const chosenImg = imageDirFiles[randomNo];
   imageDirFiles.splice(randomNo, 1);

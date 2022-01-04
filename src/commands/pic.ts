@@ -1,3 +1,6 @@
+import { SlashCommandOptionBase } from "@discordjs/builders/dist/interactions/slashCommands/mixins/CommandOptionBase";
+import { CommandInteraction } from "discord.js";
+
 const { SlashCommandBuilder } = require("@discordjs/builders");
 const { getRandInt, getCurrentTime } = require("../../functions.js");
 const axios = require("axios");
@@ -5,14 +8,14 @@ const cheerio = require("cheerio");
 
 const site = "https://kpop.asiachan.com";
 
-const getRestrictedRange = (noOfPages) => {
+const getRestrictedRange = (noOfPages: number) => {
   if (noOfPages > 100) {
     return 100;
   }
   return noOfPages;
 };
 
-const loadHtml = async (searchString) => {
+const loadHtml = async (searchString: string) => {
   try {
     const { data } = await axios({
       method: "GET",
@@ -24,9 +27,9 @@ const loadHtml = async (searchString) => {
   }
 };
 
-const getRandomPage = async (name) => {
+const getRandomPage = async (name: string) => {
   const searchString = `${site}/${name}?s=id`;
-  const values = [];
+  
   try {
     const $ = await loadHtml(searchString);
 
@@ -35,16 +38,16 @@ const getRandomPage = async (name) => {
     const re = /\d+/;
     const noOfPages = Number(tmp.match(re)[0]);
     const randomPage = String(getRandInt(getRestrictedRange(noOfPages)) + 1);
-
-    values.push(searchString);
-    values.push(randomPage);
+    var values = {searchString, randomPage};
+    values.searchString = searchString;
+    values.randomPage = randomPage;
     return values;
   } catch (err) {
     console.log(err);
   }
 };
 
-const getImageLink = async (searchString, randomPage) => {
+const getImageLink = async (searchString: string, randomPage: string) => {
   searchString = `${searchString}&p=${randomPage}`;
   try {
     const $ = await loadHtml(searchString);
@@ -56,10 +59,10 @@ const getImageLink = async (searchString, randomPage) => {
   }
 };
 
-const scrapeImageLinks = async ($) => {
+const scrapeImageLinks = async ($: Function) => {
   const exts = [".jpg", ".jpeg", ".png"];
-  const links = [];
-  $("#thumbs2 > li > p > a").each((i, pic) => {
+  const links: string[] = [];
+  $("#thumbs2 > li > p > a").each((i: Function, pic: string) => {
     const tmp = $(pic).attr("href");
     for (const ext of exts) {
       if (tmp.endsWith(ext)) {
@@ -77,19 +80,19 @@ module.exports = {
     .setDescription(
       "Returns a randomly chosen image of the person/thing from kpop.asiachan.com."
     )
-    .addStringOption((option) =>
+    .addStringOption((option: SlashCommandOptionBase) =>
       option
         .setName("name")
         .setDescription("Name of person to search for.")
         .setRequired(true)
     ),
-  async execute(interaction) {
+  async execute(interaction: CommandInteraction) {
     await interaction.deferReply();
     try {
       const name = interaction.options.getString("name");
-      const values = await getRandomPage(name);
-      const link = await getImageLink(values[0], values[1]);
-      await interaction.editReply(link);
+      const values = await getRandomPage(name!);
+      const link = await getImageLink(values!.searchString, values!.randomPage);
+      await interaction.editReply(link!);
       console.log(`${getCurrentTime()}\nExecuted /pic command.`);
     } catch (err) {
       await interaction.editReply("없어요 ㅠㅠ");

@@ -6,7 +6,7 @@ const fs = require("fs");
 const commands = [];
 const commandFiles = fs
   .readdirSync("../commands")
-  .filter((file) => file.endsWith(".js"));
+  .filter((file: string) => file.endsWith(".js"));
 
 for (const file of commandFiles) {
   const command = require(`../commands/${file}`);
@@ -24,3 +24,5 @@ const rest = new REST({ version: "9" }).setToken(discord.token);
     console.error(error);
   }
 })();
+
+export{};

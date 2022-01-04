@@ -1,3 +1,5 @@
+import { Guild, TextChannel } from "discord.js";
+
 // Require the necessary discord.js classes
 const { Client, Collection, Intents, HTTPError } = require("discord.js");
 const { discord } = require("../config.json");
@@ -28,7 +30,7 @@ const eventFiles = fs
 
 for (const file of eventFiles) {
   const event = require(`./events/${file}`);
-  if (event.once) client.once(event.name, (...args: any[]) => event.execute(...args));
+  if (event.once) client.once(event.name, (...args: any) => event.execute(...args));
   else client.on(event.name, (...args: any[]) => event.execute(...args));
 }
 
@@ -49,9 +51,9 @@ client.on("interactionCreate", async (interaction: any) => {
 
 client.on("ready", async () => {
   let imageDirFiles = getAllDirFiles("./images/");
-  const myGuild = client.guilds.cache.get(discord.guildId);
-  const musicChannel = client.channels.cache.get(discord.musicChannel);
-  const errorChannel = client.channels.cache.get(discord.errorChannel);
+  const myGuild: Guild = client.guilds.cache.get(discord.guildId);
+  const musicChannel: TextChannel = client.channels.cache.get(discord.musicChannel);
+  const errorChannel: TextChannel = client.channels.cache.get(discord.errorChannel);
 
   cron.schedule("0 0 * * *", async () => {
     if (imageDirFiles.length < 1) imageDirFiles = getAllDirFiles("./images/");
