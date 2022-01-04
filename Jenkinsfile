@@ -2,7 +2,6 @@ pipeline {
     environment {
         imageName = "imyourjoy"
         tz = "Asia/Kuala_Lumpur"
-        configFileId = "fa4175e8-7ba6-470e-8139-7d6a8c020f48"
     }
 
     agent any
@@ -11,7 +10,7 @@ pipeline {
         stage("Build") {
             steps {
                 echo "Building container..."
-                configFileProvider([configFile(fileId: ${configFileId}, targetLocation: 'config.json')]) {
+                configFileProvider([configFile(fileId: "fa4175e8-7ba6-470e-8139-7d6a8c020f48", targetLocation: 'config.json')]) {
                     sh 'sudo docker build --build-arg tz=${tz} -t ${imageName} .'
                 }
                 echo "Container build complete."
