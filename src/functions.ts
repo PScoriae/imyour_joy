@@ -1,6 +1,6 @@
 import { Guild, TextChannel } from "discord.js";
 
-const { ytApiKey, spotify } = require("./config.json");
+const { ytApiKey, spotify } = require("../config.json");
 const SpotifyWebApi = require("spotify-web-api-node");
 const YouTube = require("youtube-node");
 const fs = require("fs");
@@ -95,7 +95,7 @@ function changeGuildIcon(imageDirFiles: string[], myGuild: Guild) {
   const randomNo = getRandInt(imageDirFiles.length);
   const chosenImg = imageDirFiles[randomNo];
   imageDirFiles.splice(randomNo, 1);
-  myGuild.setIcon("./images/" + chosenImg);
+  myGuild.setIcon("../images/" + chosenImg);
   console.log(
     `${getCurrentTime()}\nSuccessfully set ${
       myGuild.name

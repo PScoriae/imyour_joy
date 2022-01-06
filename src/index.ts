@@ -50,13 +50,13 @@ client.on("interactionCreate", async (interaction: any) => {
 });
 
 client.on("ready", async () => {
-  let imageDirFiles = getAllDirFiles("./images/");
+  let imageDirFiles = getAllDirFiles("../images/");
   const myGuild: Guild = client.guilds.cache.get(discord.guildId);
   const musicChannel: TextChannel = client.channels.cache.get(discord.musicChannel);
   const errorChannel: TextChannel = client.channels.cache.get(discord.errorChannel);
 
   cron.schedule("0 0 * * *", async () => {
-    if (imageDirFiles.length < 1) imageDirFiles = getAllDirFiles("./images/");
+    if (imageDirFiles.length < 1) imageDirFiles = getAllDirFiles("../images/");
     try {
       changeGuildIcon(imageDirFiles, myGuild);
     } catch (e) {
