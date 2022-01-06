@@ -2,4 +2,4 @@
 
 sudo rm -rf ./dist/
 
-tsc -p .
+npx tsc -p .
