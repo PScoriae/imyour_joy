@@ -1,6 +1,6 @@
 FROM docker.io/library/node:17.2-alpine
 
-RUN /bin/sh -c 'mkdir /home/imyour_joy'
+RUN mkdir /home/imyour_joy
 
 WORKDIR /home/imyour_joy
 
