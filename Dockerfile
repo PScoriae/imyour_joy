@@ -10,4 +10,6 @@ ARG tz=Asia/Kuala_Lumpur
 
 ENV TZ $tz
 
+WORKDIR /dist/
+
 CMD ["node", "."]
