@@ -27,7 +27,7 @@ pipeline {
         }
         stage("Deploy") {
             steps {
-                sh 'sudo podman run -d --restart unless-stopped --name ${imageName} ${imageName}'
+                sh 'sudo docker run -d --restart unless-stopped --name ${imageName} ${imageName}'
             }
         }
         stage("Cleanup") {
