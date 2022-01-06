@@ -1,9 +1,9 @@
 .dockerignore
 node_modules
-.eslintrc.json
+src
 Dockerfile
 Jenkinsfile
+.eslintrc.json
 .git
 .gitignore
-test.js
 docker.sh
