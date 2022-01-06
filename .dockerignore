@@ -1,6 +1,6 @@
 .dockerignore
 node_modules
-src
+dist
 Dockerfile
 Jenkinsfile
 .eslintrc.json
