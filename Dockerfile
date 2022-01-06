@@ -12,4 +12,4 @@ ENV TZ $tz
 
 WORKDIR /dist/
 
-CMD ["node", "."]
+CMD ["node", "index.js"]
