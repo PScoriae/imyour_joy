@@ -10,6 +10,6 @@ ARG tz=Asia/Kuala_Lumpur
 
 ENV TZ $tz
 
-WORKDIR /dist/
+WORKDIR /imyour_joy/dist/
 
-CMD ["node", "index.js"]
+CMD ["node", "."]
