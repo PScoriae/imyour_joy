@@ -2,7 +2,7 @@ import { SlashCommandOptionBase } from "@discordjs/builders/dist/interactions/sl
 import { CommandInteraction } from "discord.js";
 
 const { SlashCommandBuilder } = require("@discordjs/builders");
-const { getRandInt, getCurrentTime } = require("../../functions.js");
+const { getRandInt, getCurrentTime } = require("../functions.js");
 const axios = require("axios");
 const cheerio = require("cheerio");
 
