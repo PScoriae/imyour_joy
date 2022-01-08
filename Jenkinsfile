@@ -7,11 +7,6 @@ pipeline {
     agent any
     
     stages {
-        stage("Clean Old Build") {
-            steps {
-                sh 'sudo rm -rf ./dist/'
-            }
-        }
         stage("Build") {
             steps {
                 configFileProvider([configFile(fileId: "fa4175e8-7ba6-470e-8139-7d6a8c020f48", targetLocation: 'config.json')]) {
