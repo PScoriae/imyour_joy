@@ -16,6 +16,4 @@ ARG tz=Asia/Kuala_Lumpur
 
 ENV TZ $tz
 
-WORKDIR /home/imyour_joy/dist
-
 CMD npm run bot
