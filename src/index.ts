@@ -14,6 +14,7 @@ const cron = require("node-cron");
 // Create a new client instance
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
 
+// Initialize commands and events
 client.commands = new Collection();
 const commandFiles = fs
   .readdirSync("./commands")
@@ -84,4 +85,3 @@ client.on("ready", async () => {
 
 client.login(discord.token);
 
-export{};

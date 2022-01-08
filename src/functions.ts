@@ -5,6 +5,18 @@ const SpotifyWebApi = require("spotify-web-api-node");
 const YouTube = require("youtube-node");
 const fs = require("fs");
 
+// Initialize APIs
+const spotifyApi = new SpotifyWebApi({
+  clientId: spotify.clientId,
+  clientSecret: spotify.clientSecret,
+  redirectUri: "http://localhost:8000/callback",
+});
+spotifyApi.setRefreshToken(spotify.refreshToken);
+
+const youTube = new YouTube();
+youTube.setKey(ytApiKey);
+
+// Functions
 function getCurrentTime() {
   const currentdate = new Date();
   return (
@@ -40,19 +52,6 @@ function getAllDirFiles(dirPath: string, arrayOfFiles?: string[]) {
   return arrayOfFiles;
 }
 
-const spotifyApi = new SpotifyWebApi({
-  clientId: spotify.clientId,
-  clientSecret: spotify.clientSecret,
-  redirectUri: "http://localhost:8000/callback",
-});
-
-spotifyApi.setRefreshToken(spotify.refreshToken);
-
-const youTube = new YouTube();
-youTube.setKey(ytApiKey);
-
-const ytPrefix = "https://youtu.be/";
-
 function refreshSpotifyAccessToken() {
   spotifyApi.refreshAccessToken().then((data: { body: { access_token: string; }; }) => {
     spotifyApi.setAccessToken(data.body.access_token);
@@ -67,6 +66,7 @@ function getRandElem(array: any[]) {
 }
 
 async function sendRandSong(textChannel: TextChannel) {
+  const ytPrefix = "https://youtu.be/";
   console.log(getCurrentTime());
   refreshSpotifyAccessToken();
   // wait for Spotify servers to recognize new token
@@ -110,5 +110,3 @@ module.exports = {
   sendRandSong,
   changeGuildIcon,
 };
-
-export{};
