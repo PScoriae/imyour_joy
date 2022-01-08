@@ -53,10 +53,12 @@ function getAllDirFiles(dirPath: string, arrayOfFiles?: string[]) {
 }
 
 function refreshSpotifyAccessToken() {
-  spotifyApi.refreshAccessToken().then((data: { body: { access_token: string; }; }) => {
-    spotifyApi.setAccessToken(data.body.access_token);
-    console.log(`Refreshed Spotify Access Token`);
-  });
+  spotifyApi
+    .refreshAccessToken()
+    .then((data: { body: { access_token: string } }) => {
+      spotifyApi.setAccessToken(data.body.access_token);
+      console.log(`Refreshed Spotify Access Token`);
+    });
 }
 
 // returns a random element from a given array
@@ -73,17 +75,21 @@ async function sendRandSong(textChannel: TextChannel) {
   await new Promise((r) => setTimeout(r, 2000));
   const randomPlaylist = getRandElem(spotify.playlistIds);
   spotifyApi.getPlaylistTracks(randomPlaylist).then(
-    (data: { body: { items: string[]; }; }) => {
+    (data: { body: { items: string[] } }) => {
       const randomTrack = getRandElem(data.body.items);
       const searchTerm = `${randomTrack.track.name} ${randomTrack.track.artists[0].name}`;
-      youTube.search(searchTerm, 1, (error: any, result: { items: { id: { videoId: string; }; }[]; }) => {
-        if (error) console.log(error);
-        else {
-          const ytLink = ytPrefix + result.items[0].id.videoId;
-          textChannel.send(ytLink);
-          console.log(`Sent ${searchTerm} to ${textChannel.name}`);
+      youTube.search(
+        searchTerm,
+        1,
+        (error: any, result: { items: { id: { videoId: string } }[] }) => {
+          if (error) console.log(error);
+          else {
+            const ytLink = ytPrefix + result.items[0].id.videoId;
+            textChannel.send(ytLink);
+            console.log(`Sent ${searchTerm} to ${textChannel.name}`);
+          }
         }
-      });
+      );
     },
     async function (err: any) {
       console.log(err);

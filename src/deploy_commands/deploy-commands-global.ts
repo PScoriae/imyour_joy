@@ -17,7 +17,9 @@ const rest = new REST({ version: "9" }).setToken(discord.token);
 
 (async () => {
   try {
-    await rest.put(Routes.applicationCommands(discord.clientId), { body: commands });
+    await rest.put(Routes.applicationCommands(discord.clientId), {
+      body: commands,
+    });
 
     console.log("Successfully registered application commands globally.");
   } catch (error) {
@@ -25,4 +27,4 @@ const rest = new REST({ version: "9" }).setToken(discord.token);
   }
 })();
 
-export{};
+export {};

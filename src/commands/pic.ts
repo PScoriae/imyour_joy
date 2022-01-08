@@ -29,7 +29,7 @@ const loadHtml = async (searchString: string) => {
 
 const getRandomPage = async (name: string) => {
   const searchString = `${site}/${name}?s=id`;
-  
+
   try {
     const $ = await loadHtml(searchString);
 
@@ -38,7 +38,7 @@ const getRandomPage = async (name: string) => {
     const re = /\d+/;
     const noOfPages = Number(tmp.match(re)[0]);
     const randomPage = String(getRandInt(getRestrictedRange(noOfPages)) + 1);
-    var values = {searchString, randomPage};
+    var values = { searchString, randomPage };
     values.searchString = searchString;
     values.randomPage = randomPage;
     return values;

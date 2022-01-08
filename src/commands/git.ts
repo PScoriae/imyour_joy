@@ -12,5 +12,3 @@ module.exports = {
     console.log(`${getCurrentTime()}\nExecuted /git command.`);
   },
 };
-
-export{};
