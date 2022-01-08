@@ -18,4 +18,4 @@ ENV TZ $tz
 
 WORKDIR /home/imyour_joy/dist
 
-CMD ["node", "."]
+CMD npm run bot
