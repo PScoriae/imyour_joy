@@ -102,11 +102,8 @@ function changeGuildIcon(imageDirFiles: string[], myGuild: Guild) {
   const chosenImg = imageDirFiles[randomNo];
   imageDirFiles.splice(randomNo, 1);
   myGuild.setIcon("../images/" + chosenImg);
-  console.log(
-    `${getCurrentTime()}\nSuccessfully set ${
-      myGuild.name
-    }'s image to ${chosenImg}`
-  );
+  console.log(getCurrentTime());
+  console.log(`Successfully set ${myGuild.name}'s image to ${chosenImg}`);
 }
 
 module.exports = {
