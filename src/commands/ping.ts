@@ -9,6 +9,6 @@ module.exports = {
     await interaction.reply(
       `https://tenor.com/view/seulisasoo-joy-gif-21877236`
     );
-    console.log(`${getCurrentTime()}\nExecuted /pic command.`);
+    console.log(`${getCurrentTime()}\nExecuted /ping command.`);
   },
 };
