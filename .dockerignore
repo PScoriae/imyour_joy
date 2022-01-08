@@ -1,9 +1,10 @@
 .dockerignore
+.eslintrc.json
+.git
+.gitignore
+.vscode
 node_modules
 dist
 Dockerfile
 Jenkinsfile
-.eslintrc.json
-.git
-.gitignore
-docker.sh
+README.me
