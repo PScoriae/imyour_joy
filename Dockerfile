@@ -8,7 +8,7 @@ ADD . .
 
 RUN npm install
 
-RUN npx tsc -p .
+RUN npm run build
 
 RUN apk add --no-cache tzdata
 
