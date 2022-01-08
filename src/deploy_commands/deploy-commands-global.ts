@@ -20,7 +20,6 @@ const rest = new REST({ version: "9" }).setToken(discord.token);
     await rest.put(Routes.applicationCommands(discord.clientId), {
       body: commands,
     });
-
     console.log("Successfully registered application commands globally.");
   } catch (error) {
     console.error(error);
