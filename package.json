@@ -5,8 +5,9 @@
   "main": "./dist/index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "bot": "cd ./dist && node .",
-    "build": "rm -rf ./dist && npx tsc -p ."
+    "bot": "node .",
+    "build": "rm -rf ./dist && npx tsc -p .",
+    "dev-bot": "npm run build && tsc-watch --noClear -p . --onSuccess \"node ./dist/index.js\""
   },
   "author": "PScoriae",
   "license": "MIT",
@@ -25,6 +26,7 @@
   "devDependencies": {
     "@types/node": "^17.0.7",
     "eslint": "^7.32.0",
+    "tsc-watch": "^4.6.0",
     "typescript": "^4.5.4"
   }
 }
