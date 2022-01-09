@@ -1,33 +1,13 @@
 pipeline {
-    environment {
-        imageName = "imyourjoy"
-        tz = "Asia/Kuala_Lumpur"
-    }
 
     agent any
     
     stages {
-        stage("Build") {
+        stage("Docker Compose") {
             steps {
                 configFileProvider([configFile(fileId: "fa4175e8-7ba6-470e-8139-7d6a8c020f48", targetLocation: 'config.json')]) {
-                    sh 'sudo docker build --build-arg tz=${tz} -t ${imageName} .'
+                    sh 'docker compose up -d --build'
                 }
-            }
-        }
-        stage("Clear Existing Container") {
-            steps {
-                sh 'sudo docker stop ${imageName}'
-                sh 'sudo docker rm ${imageName}'
-            }
-        }
-        stage("Deploy") {
-            steps {
-                sh 'sudo docker run -d --restart unless-stopped --name ${imageName} ${imageName}'
-            }
-        }
-        stage("Cleanup") {
-            steps {
-                sh 'sudo docker system prune -f'
             }
         }
     }

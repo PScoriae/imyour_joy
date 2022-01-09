@@ -16,8 +16,4 @@ RUN npm run build
 
 RUN apk add --no-cache tzdata
 
-ARG tz=Asia/Kuala_Lumpur
-
-ENV TZ $tz
-
 CMD npm run bot

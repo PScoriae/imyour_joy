@@ -6,5 +6,6 @@
 node_modules
 dist
 Dockerfile
+docker-compose.yml
 Jenkinsfile
 README.md
