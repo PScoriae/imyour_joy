@@ -12,7 +12,6 @@
         "<node_internals>/**",
         "${workspaceFolder}/node_modules/**/*.js",
       ],
-      "cwd": "${workspaceFolder}/dist",
       "program": "${workspaceFolder}/dist/index.js",
       "outFiles": [
         "${workspaceFolder}/**/*.js"
