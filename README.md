@@ -134,6 +134,12 @@ Here's how your `config.json` object should look like:
 }
 ```
 
+### `docker-compose.yml`
+
+In here, the TZ (time zone) environment variable must be changed to suit your timezone.
+
+A list of TZ database time zones can be found [here](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones)
+
 ### Images
 
 You don't really need to do anything for this since I've provided some images. Of course, you may change the images to your liking. Here are some guidelines for the images:
@@ -162,12 +168,6 @@ These instructions and the included `npm run` scripts are meant for \*nix based 
         $ npm run build && npm run bot
 
 The following instructions are for deploying it to a server using the CI/CD tools Jenkins and Docker.
-
-### Jenkinsfile
-
-Modify the `tz` variable in the `environment` section to match your timezone.
-
-Refer to the list of TZ database names [here](https://en.wikipedia.org/wiki/List_of_tz_database_time_zones).
 
 ### Jenkins Configuration
 
