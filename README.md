@@ -183,11 +183,11 @@ Obviously, this means that you'll also need to portforward it.
 
 ## Acknowledgements
 
-| Source                                                                                                                           | Description                                 |
-| -------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------- |
-| [Official discord.js guide](https://discordjs.guide)                                                                             | Great guide to get started with discord.js  |
-| [Official discord.js docs](https://https://discord.js.org/#/docs/main/stable/general/welcome.guide)                              | Detailed discord.js docs                    |
-| [Michael Hampton and BillyTom](https://serverfault.com/questions/683605/docker-container-time-timezone-will-not-reflect-changes) | Custom TZ solution for Alpine Docker images |
+| Source                                                           | Description                                 |
+| ---------------------------------------------------------------- | ------------------------------------------- |
+| [Official discord.js guide](https://discordjs.guide)             | Great guide to get started with discord.js  |
+| [Official discord.js docs](https://discord.js.org/#/docs/)       | Detailed discord.js docs                    |
+| [Michael Hampton and BillyTom](https://serverfault.com/a/683651) | Custom TZ solution for Alpine Docker images |
 
 [linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
 [linkedin-url]: https://linkedin.com/in/pierreccesario
