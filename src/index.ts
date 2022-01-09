@@ -10,6 +10,10 @@ const {
 } = require("./functions.js");
 const fs = require("fs");
 const cron = require("node-cron");
+var process = require("process");
+
+// Change cwd to dist
+process.chdir("./dist");
 
 // Create a new client instance
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
