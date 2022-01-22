@@ -72,42 +72,36 @@ async function sendRandSong(textChannel: TextChannel) {
   refreshSpotifyAccessToken();
   // wait for Spotify servers to recognize new token
   await new Promise((r) => setTimeout(r, 2000));
-  const randomPlaylist = getRandElem(spotify.playlistIds);
-  const trackList = getSpotifyTracks(randomPlaylist);
-  const randomTrack = getRandElem(trackList);
+  const combinedSongs = await combineSongs(spotify.playlistIds);
+  const randomTrack = getRandElem(combinedSongs);
   const searchTerm = `${randomTrack.track.name} ${randomTrack.track.artists[0].name}`;
-  const ytLink = getYouTubeLink(searchTerm);
-  textChannel.send(ytLink);
-  console.log(`Sent ${searchTerm} to ${textChannel.name}`);
-}
-
-function getYouTubeLink(searchTerm: string): string {
   const ytPrefix = "https://youtu.be/";
-  let ytLink: string = "";
   try {
-    ytLink = youTube.search(
+    youTube.search(
       searchTerm,
       1,
-      (error: any, result: { items: { id: { videoId: string } }[] }) =>
-        ytPrefix + result.items[0].id.videoId
+      (error: any, result: { items: { id: { videoId: string } }[] }) => {
+        textChannel.send(ytPrefix + result.items[0].id.videoId);
+      }
     );
+    console.log(`Sent ${searchTerm} to ${textChannel.name}`);
   } catch (e) {
     console.log(e);
   }
-  return ytLink;
 }
 
-function getSpotifyTracks(playlistId: string) {
-  let trackList: string[] = [];
-  spotifyApi.getPlaylistTracks(playlistId).then(
-    (data: { body: { items: string[] } }) => {
-      trackList = data.body.items;
-    },
-    async function (err: any) {
-      console.log(err);
-    }
-  );
-  return trackList;
+async function combineSongs(playlistIds: string[]) {
+  let combinedSongs: JSON[] = [];
+  for (let playlistId of playlistIds) {
+    const trackList = await getSpotifyTracks(playlistId);
+    combinedSongs.push(...trackList);
+  }
+  return combinedSongs;
+}
+
+async function getSpotifyTracks(playlistId: string): Promise<JSON[]> {
+  const response = await spotifyApi.getPlaylistTracks(playlistId);
+  return response.body.items;
 }
 
 function changeGuildIcon(imageDirFiles: string[], myGuild: Guild) {
