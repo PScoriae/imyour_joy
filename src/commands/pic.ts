@@ -9,10 +9,8 @@ const cheerio = require("cheerio");
 const site = "https://kpop.asiachan.com";
 
 const getRestrictedRange = (noOfPages: number) => {
-  if (noOfPages > 100) {
-    return 100;
-  }
-  return noOfPages;
+  if (!(noOfPages > 100)) return noOfPages;
+  return 100;
 };
 
 const loadHtml = async (searchString: string) => {
