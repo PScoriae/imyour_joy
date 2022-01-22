@@ -68,33 +68,46 @@ function getRandElem(array: any[]) {
 }
 
 async function sendRandSong(textChannel: TextChannel) {
-  const ytPrefix = "https://youtu.be/";
   console.log(getCurrentTime());
   refreshSpotifyAccessToken();
   // wait for Spotify servers to recognize new token
   await new Promise((r) => setTimeout(r, 2000));
   const randomPlaylist = getRandElem(spotify.playlistIds);
-  spotifyApi.getPlaylistTracks(randomPlaylist).then(
+  const trackList = getSpotifyTracks(randomPlaylist);
+  const randomTrack = getRandElem(trackList);
+  const searchTerm = `${randomTrack.track.name} ${randomTrack.track.artists[0].name}`;
+  const ytLink = getYouTubeLink(searchTerm);
+  textChannel.send(ytLink);
+  console.log(`Sent ${searchTerm} to ${textChannel.name}`);
+}
+
+function getYouTubeLink(searchTerm: string): string {
+  const ytPrefix = "https://youtu.be/";
+  let ytLink: string = "";
+  try {
+    ytLink = youTube.search(
+      searchTerm,
+      1,
+      (error: any, result: { items: { id: { videoId: string } }[] }) =>
+        ytPrefix + result.items[0].id.videoId
+    );
+  } catch (e) {
+    console.log(e);
+  }
+  return ytLink;
+}
+
+function getSpotifyTracks(playlistId: string) {
+  let trackList: string[] = [];
+  spotifyApi.getPlaylistTracks(playlistId).then(
     (data: { body: { items: string[] } }) => {
-      const randomTrack = getRandElem(data.body.items);
-      const searchTerm = `${randomTrack.track.name} ${randomTrack.track.artists[0].name}`;
-      youTube.search(
-        searchTerm,
-        1,
-        (error: any, result: { items: { id: { videoId: string } }[] }) => {
-          if (error) console.log(error);
-          else {
-            const ytLink = ytPrefix + result.items[0].id.videoId;
-            textChannel.send(ytLink);
-            console.log(`Sent ${searchTerm} to ${textChannel.name}`);
-          }
-        }
-      );
+      trackList = data.body.items;
     },
     async function (err: any) {
       console.log(err);
     }
   );
+  return trackList;
 }
 
 function changeGuildIcon(imageDirFiles: string[], myGuild: Guild) {
