@@ -12,6 +12,10 @@ const fs = require("fs");
 const cron = require("node-cron");
 var process = require("process");
 
+import express from "express";
+const app = express();
+const port = 3000;
+
 // Change cwd to dist
 process.chdir("./dist");
 
@@ -64,6 +68,14 @@ client.on("ready", async () => {
   const errorChannel: TextChannel = client.channels.cache.get(
     discord.errorChannel
   );
+
+  app.post("/jenkins-build", (req, res) => {
+    res.send(200);
+  });
+
+  app.listen(port, () => {
+    console.log(`Example app listening on port ${port}`);
+  });
 
   cron.schedule("0 0 * * *", async () => {
     if (imageDirFiles.length < 1) imageDirFiles = getAllDirFiles("../images/");
