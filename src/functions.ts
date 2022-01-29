@@ -100,8 +100,29 @@ async function combineSongs(playlistIds: string[]) {
 }
 
 async function getSpotifyTracks(playlistId: string): Promise<JSON[]> {
+  const limit = 100;
   const response = await spotifyApi.getPlaylistTracks(playlistId);
-  return response.body.items;
+  const songList: JSON[] = response.body.items;
+  if (response.body.total <= limit) return songList;
+
+  const remainder = response.body.total % limit;
+  // edge case determines if an extra query must be made since 100 songs are always queried
+  const edgeCase = remainder ? 0 : 1;
+  const noOfQueriesLeft = Math.floor(response.body.total / limit) - edgeCase;
+  let queued = response.body.total - limit;
+  let offset = limit;
+
+  for (let i = 0; i < noOfQueriesLeft; i++) {
+    const altResponse = await spotifyApi.getPlaylistTracks(playlistId, {
+      offset: offset,
+    });
+    songList.push(...altResponse.body.items);
+
+    if (queued < limit) offset = queued;
+    else offset += limit;
+    queued -= limit;
+  }
+  return songList;
 }
 
 function changeGuildIcon(imageDirFiles: string[], myGuild: Guild) {
