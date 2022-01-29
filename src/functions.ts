@@ -68,33 +68,61 @@ function getRandElem(array: any[]) {
 }
 
 async function sendRandSong(textChannel: TextChannel) {
-  const ytPrefix = "https://youtu.be/";
   console.log(getCurrentTime());
   refreshSpotifyAccessToken();
   // wait for Spotify servers to recognize new token
   await new Promise((r) => setTimeout(r, 2000));
-  const randomPlaylist = getRandElem(spotify.playlistIds);
-  spotifyApi.getPlaylistTracks(randomPlaylist).then(
-    (data: { body: { items: string[] } }) => {
-      const randomTrack = getRandElem(data.body.items);
-      const searchTerm = `${randomTrack.track.name} ${randomTrack.track.artists[0].name}`;
-      youTube.search(
-        searchTerm,
-        1,
-        (error: any, result: { items: { id: { videoId: string } }[] }) => {
-          if (error) console.log(error);
-          else {
-            const ytLink = ytPrefix + result.items[0].id.videoId;
-            textChannel.send(ytLink);
-            console.log(`Sent ${searchTerm} to ${textChannel.name}`);
-          }
-        }
-      );
-    },
-    async function (err: any) {
-      console.log(err);
-    }
-  );
+  const combinedSongs = await combineSongs(spotify.playlistIds);
+  const randomTrack = getRandElem(combinedSongs);
+  const searchTerm = `${randomTrack.track.name} ${randomTrack.track.artists[0].name}`;
+  const ytPrefix = "https://youtu.be/";
+  try {
+    youTube.search(
+      searchTerm,
+      1,
+      (error: any, result: { items: { id: { videoId: string } }[] }) => {
+        textChannel.send(ytPrefix + result.items[0].id.videoId);
+      }
+    );
+    console.log(`Sent ${searchTerm} to ${textChannel.name}`);
+  } catch (e) {
+    console.log(e);
+  }
+}
+
+async function combineSongs(playlistIds: string[]) {
+  let combinedSongs: JSON[] = [];
+  for (let playlistId of playlistIds) {
+    const trackList = await getSpotifyTracks(playlistId);
+    combinedSongs.push(...trackList);
+  }
+  return combinedSongs;
+}
+
+async function getSpotifyTracks(playlistId: string): Promise<JSON[]> {
+  const limit = 100;
+  const response = await spotifyApi.getPlaylistTracks(playlistId);
+  const songList: JSON[] = response.body.items;
+  if (response.body.total <= limit) return songList;
+
+  const remainder = response.body.total % limit;
+  // edge case determines if an extra query must be made since 100 songs are always queried
+  const edgeCase = remainder ? 0 : 1;
+  const noOfQueriesLeft = Math.floor(response.body.total / limit) - edgeCase;
+  let queued = response.body.total - limit;
+  let offset = limit;
+
+  for (let i = 0; i < noOfQueriesLeft; i++) {
+    const altResponse = await spotifyApi.getPlaylistTracks(playlistId, {
+      offset: offset,
+    });
+    songList.push(...altResponse.body.items);
+
+    if (queued < limit) offset = queued;
+    else offset += limit;
+    queued -= limit;
+  }
+  return songList;
 }
 
 function changeGuildIcon(imageDirFiles: string[], myGuild: Guild) {
