@@ -52,13 +52,10 @@ function getAllDirFiles(dirPath: string, arrayOfFiles?: string[]) {
   return arrayOfFiles;
 }
 
-function refreshSpotifyAccessToken() {
-  spotifyApi
-    .refreshAccessToken()
-    .then((data: { body: { access_token: string } }) => {
-      spotifyApi.setAccessToken(data.body.access_token);
-      console.log(`Refreshed Spotify Access Token`);
-    });
+async function refreshSpotifyAccessToken() {
+  const response = await spotifyApi.refreshAccessToken();
+  await spotifyApi.setAccessToken(response.body.access_token);
+  console.log(`Refreshed Spotify Access Token`);
 }
 
 // returns a random element from a given array
