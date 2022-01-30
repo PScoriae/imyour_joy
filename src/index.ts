@@ -7,7 +7,7 @@ const {
   getAllDirFiles,
   sendRandSong,
   changeGuildIcon,
-} = require("./functions.js");
+} = require("./functions");
 const fs = require("fs");
 const cron = require("node-cron");
 var process = require("process");
