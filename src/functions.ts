@@ -106,7 +106,7 @@ async function getSpotifyTracks(playlistId: string): Promise<JSON[]> {
   if (response.body.total <= limit) return songList;
 
   const remainder = response.body.total % limit;
-  // edge case determines if an extra query must be made since 100 songs are always queried
+  // edge case determines if a single extra query must be made for playlists with multiples of 100
   const edgeCase = remainder ? 0 : 1;
   const noOfQueriesLeft = Math.floor(response.body.total / limit) - edgeCase;
   let queued = response.body.total - limit;
