@@ -66,7 +66,7 @@ function getRandElem(array: any[]) {
 
 async function sendRandSong(textChannel: TextChannel) {
   console.log(getCurrentTime());
-  refreshSpotifyAccessToken();
+  await refreshSpotifyAccessToken();
   // wait for Spotify servers to recognize new token
   await new Promise((r) => setTimeout(r, 2000));
   const combinedSongs = await combineSongs(spotify.playlistIds);
