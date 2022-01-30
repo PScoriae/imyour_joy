@@ -7,10 +7,11 @@ const {
   getAllDirFiles,
   sendRandSong,
   changeGuildIcon,
-} = require("./functions.js");
+  initialiseClient,
+} = require("./functions");
 const fs = require("fs");
 const cron = require("node-cron");
-var process = require("process");
+const process = require("process");
 
 import express from "express";
 const app = express();
@@ -21,28 +22,7 @@ process.chdir("./dist");
 
 // Create a new client instance
 const client = new Client({ intents: [Intents.FLAGS.GUILDS] });
-
-// Initialize commands and events
-client.commands = new Collection();
-const commandFiles = fs
-  .readdirSync("./commands")
-  .filter((file: string) => file.endsWith(".js"));
-
-for (const file of commandFiles) {
-  const command = require(`./commands/${file}`);
-  client.commands.set(command.data.name, command);
-}
-
-const eventFiles = fs
-  .readdirSync("./events")
-  .filter((file: string) => file.endsWith(".js"));
-
-for (const file of eventFiles) {
-  const event = require(`./events/${file}`);
-  if (event.once)
-    client.once(event.name, (...args: any) => event.execute(...args));
-  else client.on(event.name, (...args: any[]) => event.execute(...args));
-}
+initialiseClient(client);
 
 client.on("interactionCreate", async (interaction: any) => {
   if (!interaction.isCommand()) return;

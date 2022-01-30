@@ -1,4 +1,4 @@
-import { Guild, TextChannel } from "discord.js";
+import { Collection, Guild, TextChannel } from "discord.js";
 
 const { ytApiKey, spotify } = require("../config.json");
 const SpotifyWebApi = require("spotify-web-api-node");
@@ -106,7 +106,7 @@ async function getSpotifyTracks(playlistId: string): Promise<JSON[]> {
   if (response.body.total <= limit) return songList;
 
   const remainder = response.body.total % limit;
-  // edge case determines if an extra query must be made since 100 songs are always queried
+  // edge case determines if a single extra query must be made for playlists with multiples of 100
   const edgeCase = remainder ? 0 : 1;
   const noOfQueriesLeft = Math.floor(response.body.total / limit) - edgeCase;
   let queued = response.body.total - limit;
@@ -134,10 +134,35 @@ function changeGuildIcon(imageDirFiles: string[], myGuild: Guild) {
   console.log(`Successfully set ${myGuild.name}'s image to ${chosenImg}`);
 }
 
+// Initialise commands and events
+function initialiseClient(client: any) {
+  client.commands = new Collection();
+  const commandFiles = fs
+    .readdirSync("./commands")
+    .filter((file: string) => file.endsWith(".js"));
+
+  for (const file of commandFiles) {
+    const command = require(`./commands/${file}`);
+    client.commands.set(command.data.name, command);
+  }
+
+  const eventFiles = fs
+    .readdirSync("./events")
+    .filter((file: string) => file.endsWith(".js"));
+
+  for (const file of eventFiles) {
+    const event = require(`./events/${file}`);
+    if (event.once)
+      client.once(event.name, (...args: any) => event.execute(...args));
+    else client.on(event.name, (...args: any[]) => event.execute(...args));
+  }
+}
+
 module.exports = {
   getCurrentTime,
   getRandInt,
   getAllDirFiles,
   sendRandSong,
   changeGuildIcon,
+  initialiseClient,
 };
