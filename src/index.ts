@@ -10,7 +10,7 @@ const {
 } = require("./functions");
 const fs = require("fs");
 const cron = require("node-cron");
-var process = require("process");
+const process = require("process");
 
 // Change cwd to dist
 process.chdir("./dist");
