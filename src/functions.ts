@@ -159,7 +159,11 @@ module.exports = {
   getCurrentTime,
   getRandInt,
   getAllDirFiles,
+  refreshSpotifyAccessToken,
+  getRandElem,
   sendRandSong,
+  combineSongs,
+  getSpotifyTracks,
   changeGuildIcon,
   initialiseClient,
 };

@@ -4,7 +4,7 @@
   "description": "learning JS with Joy",
   "main": "./dist/index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "test": "jest",
     "bot": "node .",
     "build": "rm -rf ./dist && npx tsc -p .",
     "dev-bot": "npm run build && tsc-watch --noClear -p . --onSuccess \"node ./dist/index.js\""
