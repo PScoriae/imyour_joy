@@ -48,7 +48,7 @@
 
 ## About
 
-A simple Kpop discord.js bot.
+An open source self-deployable Dockerized Discord.js bot written in TypeScript (previously Python)
 
 In its current state, this is a Kpop themed Discord bot that with features that appeal to Kpop fans.
 
