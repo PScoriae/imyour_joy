@@ -50,7 +50,7 @@
 
 A simple Kpop discord.js bot.
 
-In its current state, this is a Joy (Red Velvet) themed Discord bot that with features that appeal to Kpop fans.
+In its current state, this is a Kpop themed Discord bot that with features that appeal to Kpop fans.
 
 Complying with Discord's announcement regarding _[Message Content Access Deprecation for Verified Bots](https://support-dev.discord.com/hc/en-us/articles/4404772028055-Message-Content-Access-Deprecation-for-Verified-Bots)_, this bot only uses Slash Commands. Though this change only applies to Verified Bots, I still want to use Slash Commands so that I hopefully don't encounter any headaches in the future.
 
@@ -60,8 +60,8 @@ However, CI related files - Docker and Jenkins - are supplied as it is the sugge
 
 ### Built With
 
-- [Typescript](https://www.typescriptlang.org/)
-- [discord.js](https://discord.js.org/#/)
+- [TypeScript](https://www.typescriptlang.org/)
+- [Discord.js](https://discord.js.org/#/)
 - [Docker](https://www.docker.com/)
 - [Jenkins](https://www.jenkins.io/)
 
