@@ -1,10 +1,5 @@
 <div align='center'>
 <p>
-  <a href='http://pierreccesario.com:8090/job/imyour_joy/'>
-    <img src='http://pierreccesario.com:8090/buildStatus/icon?job=imyour_joy&style=flat-square'>
-  </a>
-</p>
-<p>
   <a href="https://github.com/PScoriae/imyour_joy/blob/master/LICENSE">
     <img src="https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge">
   </a>
